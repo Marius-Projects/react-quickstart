@@ -1,12 +1,12 @@
-apiVersion: skaffold/v1alpha2
+apiVersion: skaffold/v1beta1
 kind: Config
 build:
   tagPolicy:
     envTemplate:
       template: "{{.DOCKER_REGISTRY}}/marius-projects/react-quickstart:{{.VERSION}}"
   artifacts:
-  - imageName: changeme
-    workspace: .
+  - image: changeme
+    context: .
     docker: {}
   local: {}
 deploy:
@@ -19,7 +19,9 @@ profiles:
       envTemplate:
         template: "{{.DOCKER_REGISTRY}}/marius-projects/react-quickstart:{{.DIGEST_HEX}}"
     artifacts:
-    - docker: {}
+    - docker: {
+      dockerfile: "Dockerfile.dev"
+    }
     local: {}
   deploy:
     helm:
